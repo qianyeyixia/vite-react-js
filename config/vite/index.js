@@ -2,11 +2,10 @@
  * @Author: wangyi
  * @Description: 
  * @Date: 2022-03-11 15:42:14
- * @LastEditTime: 2022-03-11 17:29:57
+ * @LastEditTime: 2022-03-11 18:27:03
  */
 import legacy from '@vitejs/plugin-legacy';
 import viteReact from "@vitejs/plugin-react";
-import reactRefresh from '@vitejs/plugin-react-refresh';
 import viteCompression from 'vite-plugin-compression';
 import svgr from 'vite-plugin-svgr'
 import {
