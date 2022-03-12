@@ -13,6 +13,7 @@ specifiers:
   autoprefixer: ^10.4.2
   axios: ^0.26.1
   classnames: ^2.3.1
+  connected-react-router: ^6.9.2
   cross-env: ^7.0.3
   dayjs: ^1.10.8
   eslint: ^8.10.0
@@ -34,6 +35,9 @@ specifiers:
   react-redux: ^7.2.6
   react-router-config: ^5.1.1
   react-router-dom: ^6.2.2
+  redux: ^4.1.2
+  redux-persist: ^6.0.0
+  redux-promise: ^0.6.0
   rimraf: ^3.0.2
   tailwindcss: ^3.0.23
   vite: ^2.8.0
@@ -49,6 +53,7 @@ dependencies:
   antd: 4.19.1_react-dom@17.0.2+react@17.0.2
   axios: 0.26.1
   classnames: 2.3.1
+  connected-react-router: 6.9.2_34362ad81a919891909cf289bf01b934
   dayjs: 1.10.8
   js-md5: 0.7.3
   lodash: 4.17.21
@@ -59,6 +64,9 @@ dependencies:
   react-redux: 7.2.6_react-dom@17.0.2+react@17.0.2
   react-router-config: 5.1.1_react@17.0.2
   react-router-dom: 6.2.2_react-dom@17.0.2+react@17.0.2
+  redux: 4.1.2
+  redux-persist: 6.0.0_redux@4.1.2
+  redux-promise: 0.6.0
   tailwindcss: 3.0.23_autoprefixer@10.4.2
 
 devDependencies:
@@ -1187,6 +1195,25 @@ packages:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
     dev: true
 
+  /connected-react-router/6.9.2_34362ad81a919891909cf289bf01b934:
+    resolution: {integrity: sha512-bE8kNBiZv9Mivp7pYn9JvLH5ItTjLl45kk1/Vha0rmAK9I/ETb5JPJrAm0h2KCG9qLfv7vqU3Jo4UUDo0oJnQg==}
+    peerDependencies:
+      history: ^4.7.2
+      react: ^16.4.0 || ^17.0.0
+      react-redux: ^6.0.0 || ^7.1.0
+      react-router: ^4.3.1 || ^5.0.0
+      redux: ^3.6.0 || ^4.0.0
+    dependencies:
+      lodash.isequalwith: 4.4.0
+      prop-types: 15.8.1
+      react: 17.0.2
+      react-redux: 7.2.6_react-dom@17.0.2+react@17.0.2
+      redux: 4.1.2
+    optionalDependencies:
+      immutable: 4.0.0
+      seamless-immutable: 7.1.4
+    dev: false
+
   /console/0.7.2:
     resolution: {integrity: sha1-+aQzEkkpFZG3v5v/qOIFNW8gqfA=}
     dev: true
@@ -1950,6 +1977,13 @@ packages:
     resolution: {integrity: sha512-WIWGi2L3DyTUvUrwRKgGi9TwxQMUEqPOPQBVi71R96jZXJdFskXEmf54BoZaS1kknGODoIGASGEzBUYdyMCBJg==}
     dev: true
 
+  /flux-standard-action/2.1.2:
+    resolution: {integrity: sha512-7vdgawlphCjzaMLdpZv8hlGC/FJCXu6sqE3Wuqe3HLZ22KcDiO4IFplxLDePDhEt6hgCrugt45RoUObuzZP6Kg==}
+    dependencies:
+      lodash.isplainobject: 4.0.6
+      lodash.isstring: 4.0.1
+    dev: false
+
   /follow-redirects/1.14.9:
     resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
     engines: {node: '>=4.0'}
@@ -2128,6 +2162,12 @@ packages:
     dev: true
     optional: true
 
+  /immutable/4.0.0:
+    resolution: {integrity: sha512-zIE9hX70qew5qTUjSS7wi1iwj/l7+m54KWU247nhM3v806UdGj1yDndXj+IOYxxtW9zyLI+xqFNZjTuDaLUqFw==}
+    requiresBuild: true
+    dev: false
+    optional: true
+
   /import-fresh/3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -2236,6 +2276,10 @@ packages:
   /is-number/7.0.0:
     resolution: {integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==}
     engines: {node: '>=0.12.0'}
+    dev: false
+
+  /is-promise/2.2.2:
+    resolution: {integrity: sha512-+lP4/6lKUBfQjZ2pdxThZvLUAafmZb8OAxFb8XXtiQmS35INgr85hdOGoEs124ez1FCnZJt6jau/T+alh58QFQ==}
     dev: false
 
   /is-regex/1.1.4:
@@ -2411,6 +2455,18 @@ packages:
 
   /lodash.isequal/4.5.0:
     resolution: {integrity: sha1-QVxEePK8wwEgwizhDtMib30+GOA=}
+    dev: false
+
+  /lodash.isequalwith/4.4.0:
+    resolution: {integrity: sha1-Jmcm3dUo+FTyH06pigZWBuD7xrA=}
+    dev: false
+
+  /lodash.isplainobject/4.0.6:
+    resolution: {integrity: sha1-fFJqUtibRcRcxpC4gWO+BJf1UMs=}
+    dev: false
+
+  /lodash.isstring/4.0.1:
+    resolution: {integrity: sha1-1SfftUVuynzJu5XV2ur4i6VKVFE=}
     dev: false
 
   /lodash.merge/4.6.2:
@@ -3482,6 +3538,21 @@ packages:
       picomatch: 2.3.1
     dev: false
 
+  /redux-persist/6.0.0_redux@4.1.2:
+    resolution: {integrity: sha512-71LLMbUq2r02ng2We9S215LtPu3fY0KgaGE0k8WRgl6RkqxtGfl7HUozz1Dftwsb0D/5mZ8dwAaPbtnzfvbEwQ==}
+    peerDependencies:
+      redux: '>4.0.0'
+    dependencies:
+      redux: 4.1.2
+    dev: false
+
+  /redux-promise/0.6.0:
+    resolution: {integrity: sha512-R2mGxJbPFgXyCNbFDE6LjTZhCEuACF54g1bxld3nqBhnRMX0OsUyWk77moF7UMGkUdl5WOAwc4BC5jOd1dunqQ==}
+    dependencies:
+      flux-standard-action: 2.1.2
+      is-promise: 2.2.2
+    dev: false
+
   /redux/4.1.2:
     resolution: {integrity: sha512-SH8PglcebESbd/shgf6mii6EIoRM0zrQyjcuQ+ojmfxjTtE0z9Y8pa62iA/OJ58qjP6j27uyW4kUF4jl/jd6sw==}
     dependencies:
@@ -3584,6 +3655,12 @@ packages:
     dependencies:
       compute-scroll-into-view: 1.0.17
     dev: false
+
+  /seamless-immutable/7.1.4:
+    resolution: {integrity: sha512-XiUO1QP4ki4E2PHegiGAlu6r82o5A+6tRh7IkGGTVg/h+UoeX4nFBeCGPOhb4CYjvkqsfm/TUtvOMYC1xmV30A==}
+    requiresBuild: true
+    dev: false
+    optional: true
 
   /semver/5.7.1:
     resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==}

@@ -1,6 +1,24 @@
-/*
- * @Author: wangyi
- * @Description: 
- * @Date: 2022-03-11 18:13:50
- * @LastEditTime: 2022-03-11 18:13:52
- */
+import {createStore, applyMiddleware, combineReducers} from "redux"
+
+import { persistStore, persistReducer } from 'redux-persist'
+import promiseMiddleware from 'redux-promise'
+import storage from 'redux-persist/lib/storage'
+import storeData from '@/store/reducers'
+
+const reducers = combineReducers({
+  storeData
+})
+
+const persistConfig = {
+  key: 'root',
+  storage
+}
+
+const myPersistReducer = persistReducer(persistConfig, reducers)
+const store = createStore(
+  myPersistReducer,
+  applyMiddleware(promiseMiddleware)
+)
+const persistor = persistStore(store)
+
+export { store, persistor }
