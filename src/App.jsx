@@ -1,17 +1,12 @@
-import React from "react"
-import {HashRouter as Router, Route } from "react-router-dom"
+import React from "react";
+import { Routes, useRoutes } from "react-router-dom";
 
+import routes from "@/router";
+import { Route } from "react-router-dom";
+
+import BackLayout  from "@/layout";
 const App = () => {
+  return (<BackLayout />);
+};
 
-  return (
-    <Router>
-      <Route
-        path="/"
-        key="container"
-        render={(props) => <Container {...props} />}
-      />
-  </Router>
-  )
-}
-
-export default App
+export default App;
