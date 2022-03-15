@@ -1,6 +1,15 @@
-import styleImport from 'vite-plugin-imp';
+import styleImport from 'vite-plugin-style-import';
 
 export default function configMockPlugin(isBuild) {
-  if (!isBuild) return [];
-  return styleImport();
+  return styleImport({
+    libs: [
+      {
+        libraryName: 'antd',
+        esModule: true,
+        resolveStyle: (name) => {
+          return `antd/es/${name}/style/index`;
+        }
+      }
+    ]
+  });
 }

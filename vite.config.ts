@@ -2,8 +2,8 @@ import path from "path";
 import dayjs from "dayjs";
 
 import { defineConfig, UserConfig, ConfigEnv } from "vite";
-import antOverride from "./theme.config";
-Object.assign(antOverride, { "@ant-prefix": "yanwen-vite" });
+// import antOverride from "./theme.config";
+// Object.assign(antOverride, { "@ant-prefix": "yanwen-vite" });
 
 import { PORT, VITE_DROP_CONSOLE } from './config/constant';
 import { createProxy } from "./config/vite/proxy";
@@ -20,19 +20,17 @@ const __APP_INFO__ = {
 export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   const isBuild = command === "build";
   return {
+    base: "/",
     css: {
       preprocessorOptions: {
         less: {
           javascriptEnabled: true,
-          modifyVars: antOverride,
         },
       },
     },
     resolve: {
       alias: [
-        { find: /^~/, replacement: path.resolve(__dirname, "./") },
         { find: "@", replacement: path.resolve(__dirname, "src") },
-        { find: "@c", replacement: path.resolve(__dirname, "config") },
       ],
     },
     server: {
@@ -40,7 +38,6 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       port: PORT, // 开发环境启动的端口
       proxy: createProxy(),
     },
-    build: {},
     define: {
       // 设置应用信息
       __APP_INFO__: JSON.stringify(__APP_INFO__),

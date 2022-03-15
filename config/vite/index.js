@@ -2,12 +2,11 @@
  * @Author: wangyi
  * @Description: 
  * @Date: 2022-03-11 15:42:14
- * @LastEditTime: 2022-03-11 18:27:03
+ * @LastEditTime: 2022-03-15 15:53:39
  */
 import legacy from '@vitejs/plugin-legacy';
 import viteReact from "@vitejs/plugin-react";
 import viteCompression from 'vite-plugin-compression';
-import svgr from 'vite-plugin-svgr'
 import {
   VITE_APP_COMPRESS_GZIP,
   VITE_APP_COMPRESS_GZIP_DELETE_FILE,
@@ -18,8 +17,6 @@ import configStyleImportPlugin from "./plugins/styleImport"
 export function createVitePlugins(viteEnv, isBuild) {
   const vitePlugins = [
     viteReact(),
-    // reactRefresh(),
-    svgr(),
   ];
 
   // @vitejs/plugin-legacy
