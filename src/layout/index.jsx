@@ -2,7 +2,7 @@
  * @Author: wangyi
  * @Description:
  * @Date: 2022-03-13 17:46:55
- * @LastEditTime: 2022-03-16 10:44:10
+ * @LastEditTime: 2022-03-16 14:02:30
  */
 import React, { useState, useEffect } from "react";
 import { Route, Link, useLocation, useRoutes } from "react-router-dom";
@@ -12,6 +12,10 @@ import routes from "@/router";
 const { Header, Content, Sider } = Layout;
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 const { SubMenu } = Menu;
+
+import Fulllogo from '@/assets/yanwen-full-logo.png';
+import logo from '@/assets/logo.png';
+import "./index.less";
 
 const BackLayout = () => {
   const location = useLocation();
@@ -57,7 +61,11 @@ const BackLayout = () => {
     <>
       <Layout style={{ minHeight: "100vh" }}>
         <Sider collapsible collapsed={collapsed} onCollapse={onCollapse} theme="light">
-          <div className="logo" />
+          <div className="logo">
+            {
+              collapsed ? <img src={logo} className="logo-logo" alt="logo" /> : <img className="logo-full" src={Fulllogo} alt="logo" />
+            }
+          </div>
           <Menu
             theme="light"
             mode="inline"
@@ -72,9 +80,9 @@ const BackLayout = () => {
           <Header style={{ background: "#fff", padding: 0 }}>
             <span onClick={() => onCollapse(!collapsed)} style={{cursor: "pointer"}}>
               {collapsed ? (
-                <MenuFoldOutlined style={{ fontSize: 20, marginLeft: 20 }} />
-              ) : (
                 <MenuUnfoldOutlined style={{ fontSize: 20, marginLeft: 20 }} />
+              ) : (
+                <MenuFoldOutlined style={{ fontSize: 20, marginLeft: 20 }} />
               )}
             </span>
           </Header>
