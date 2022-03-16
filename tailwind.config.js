@@ -1,6 +1,6 @@
 module.exports = {
   mode: 'jit',
-  prefix: 'yw-',
+  prefix: 'ywwl-',
   important: true,
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {

@@ -2,43 +2,56 @@
  * @Author: wangyi
  * @Description:
  * @Date: 2022-03-13 17:46:55
- * @LastEditTime: 2022-03-16 14:02:30
+ * @LastEditTime: 2022-03-16 16:53:38
  */
-import React, { useState, useEffect } from "react";
-import { Route, Link, useLocation, useRoutes } from "react-router-dom";
-import { Menu } from "antd";
-import { Layout } from "antd";
-import routes from "@/router";
+import React, { useState, useEffect, useRef } from "react";
+import { useLocation, useRoutes, useNavigate, Link } from "react-router-dom";
+import { Menu, Layout } from "antd";
 const { Header, Content, Sider } = Layout;
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-const { SubMenu } = Menu;
+import { connect } from 'react-redux'
 
-import Fulllogo from '@/assets/yanwen-full-logo.png';
-import logo from '@/assets/logo.png';
+const { SubMenu } = Menu;
+import routes from "@/router";
+import * as actions from "@/store/actions"
+import Fulllogo from "@/assets/img/yanwen-full-logo.png";
+import logo from "@/assets/img/logo.png";
 import "./index.less";
 
-const BackLayout = () => {
+const BackLayout = (props) => {
   const location = useLocation();
-  const [collapsed, setCollapsed] = useState(false);
+  const history = useNavigate();
   const [selectedKeys, setSelectedKeys] = useState(["/list"]);
+  const pathRef = useRef("")
+  const [panesItem, setPanesItem] = useState({
+    title: '',
+    content: null,
+    key: '',
+    closable: false,
+    path: ''
+  })
   const element = useRoutes(routes);
   const onCollapse = (collapsed) => {
-    setCollapsed(collapsed);
+    setStoreData('SET_COLLAPSED', collapsed)
   };
+  const {
+    storeData: { collapsed, userInfo },
+    setStoreData
+  } = props
+
 
   useEffect(() => {
+    setStoreData('SET_COLLAPSED', document.body.clientWidth <= 1366)
     setSelectedKeys([location.pathname]);
-  }, [location.pathname]);
+    console.log(location, history)
+  }, [location.pathname, location.search, setStoreData, history]);
 
   const renderMenu = (menus) => {
     if (menus.length > 0) {
       return menus.map((menu, index) => {
-        if(menu.children){
+        if (menu.children) {
           return (
-            <SubMenu
-              key={menu.path}
-              title={menu.title}
-            >
+            <SubMenu key={menu.path} title={menu.title}>
               {renderMenu(menu.children)}
             </SubMenu>
           );
@@ -60,11 +73,18 @@ const BackLayout = () => {
   return (
     <>
       <Layout style={{ minHeight: "100vh" }}>
-        <Sider collapsible collapsed={collapsed} onCollapse={onCollapse} theme="light">
+        <Sider
+          collapsible
+          collapsed={collapsed}
+          onCollapse={onCollapse}
+          theme="light"
+        >
           <div className="logo">
-            {
-              collapsed ? <img src={logo} className="logo-logo" alt="logo" /> : <img className="logo-full" src={Fulllogo} alt="logo" />
-            }
+            {collapsed ? (
+              <img src={logo} className="logo-logo" alt="logo" />
+            ) : (
+              <img className="logo-full" src={Fulllogo} alt="logo" />
+            )}
           </div>
           <Menu
             theme="light"
@@ -78,7 +98,10 @@ const BackLayout = () => {
         </Sider>
         <Layout>
           <Header style={{ background: "#fff", padding: 0 }}>
-            <span onClick={() => onCollapse(!collapsed)} style={{cursor: "pointer"}}>
+            <span
+              onClick={() => onCollapse(!collapsed)}
+              style={{ cursor: "pointer" }}
+            >
               {collapsed ? (
                 <MenuUnfoldOutlined style={{ fontSize: 20, marginLeft: 20 }} />
               ) : (
@@ -97,4 +120,4 @@ const BackLayout = () => {
   );
 };
 
-export default BackLayout;
+export default connect((state) => state, actions)(BackLayout);

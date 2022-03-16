@@ -23,5 +23,9 @@ export default {
   SET_RELOADPATH: {
     name: 'SET_RELOADPATH',
     field: 'reloadPath'
+  },
+  SET_LONGAGE: {
+    name: 'SET_LOCALE',
+    field: 'locale'
   }
 }

@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 
 import { defineConfig, UserConfig, ConfigEnv } from "vite";
 import antOverride from "./theme.config";
-Object.assign(antOverride, { "@ant-prefix": "yanwen-vite" });
 
 console.log(dayjs().format("YYYY-MM-DD HH:mm:ss"), antOverride);
 
@@ -27,6 +26,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       preprocessorOptions: {
         less: {
           javascriptEnabled: true,
+          // additionalData: antOverride,
         },
       },
     },

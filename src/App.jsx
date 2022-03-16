@@ -1,4 +1,4 @@
-import React from "react";
+import React, { StrictMode } from "react";
 import { BrowserRouter } from "react-router-dom";
 
 import { ConfigProvider } from "antd";
@@ -9,18 +9,21 @@ import BackLayout from "@/layout";
 import zhCN from "antd/es/locale/zh_CN";
 
 import { store, persistor } from "@/store";
+import '@/assets/css/public.less'
 
 const App = () => {
   return (
-    <ReduxProvider store={store}>
-       <PersistGate loading={null} persistor={persistor}>
-        <ConfigProvider locale={zhCN}>
-          <BrowserRouter>
-            <BackLayout />
-          </BrowserRouter>
-        </ConfigProvider>
-      </PersistGate>
-    </ReduxProvider>
+    <StrictMode>
+      <ReduxProvider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ConfigProvider locale={zhCN}>
+            <BrowserRouter>
+              <BackLayout />
+            </BrowserRouter>
+          </ConfigProvider>
+        </PersistGate>
+      </ReduxProvider>
+    </StrictMode>
   );
 };
 

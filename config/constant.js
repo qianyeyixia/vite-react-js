@@ -10,9 +10,9 @@ export const PORT = 2233;
 // 基本路径
 export const VITE_BASE_PATH = '/';
 // 请求接口地址
-export const VITE_PROXY_HTTP = 'http://localhost:8085';
+export const VITE_PROXY_HTTP = 'http://localhost:8087';
 // 应用名称
-export const VITE_APP_TITLE = 'Vite React App';
+export const VITE_APP_TITLE = '运输后台管理系统';
 // 开启 mock
 export const VITE_APP_MOCK = true;
 // 开启包依赖分析 可视化
