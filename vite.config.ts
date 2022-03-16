@@ -2,8 +2,10 @@ import path from "path";
 import dayjs from "dayjs";
 
 import { defineConfig, UserConfig, ConfigEnv } from "vite";
-// import antOverride from "./theme.config";
-// Object.assign(antOverride, { "@ant-prefix": "yanwen-vite" });
+import antOverride from "./theme.config";
+Object.assign(antOverride, { "@ant-prefix": "yanwen-vite" });
+
+console.log(dayjs().format("YYYY-MM-DD HH:mm:ss"), antOverride);
 
 import { PORT, VITE_DROP_CONSOLE } from './config/constant';
 import { createProxy } from "./config/vite/proxy";

@@ -2,10 +2,10 @@
  * @Author: wangyi
  * @Description:
  * @Date: 2022-03-13 17:46:55
- * @LastEditTime: 2022-03-15 17:30:52
+ * @LastEditTime: 2022-03-16 10:44:10
  */
 import React, { useState, useEffect } from "react";
-import { Route, Link, Routes, useLocation, useRoutes } from "react-router-dom";
+import { Route, Link, useLocation, useRoutes } from "react-router-dom";
 import { Menu } from "antd";
 import { Layout } from "antd";
 import routes from "@/router";
@@ -18,7 +18,6 @@ const BackLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState(["/list"]);
   const element = useRoutes(routes);
-  console.log("element", element);
   const onCollapse = (collapsed) => {
     setCollapsed(collapsed);
   };
@@ -58,8 +57,10 @@ const BackLayout = () => {
     <>
       <Layout style={{ minHeight: "100vh" }}>
         <Sider collapsible collapsed={collapsed} onCollapse={onCollapse} theme="light">
+          <div className="logo" />
           <Menu
             theme="light"
+            mode="inline"
             defaultSelectedKeys={["/"]}
             selectedKeys={selectedKeys}
             onSelect={onSelectedKeys}
@@ -69,13 +70,13 @@ const BackLayout = () => {
         </Sider>
         <Layout>
           <Header style={{ background: "#fff", padding: 0 }}>
-            <div onClick={() => onCollapse(!collapsed)}>
+            <span onClick={() => onCollapse(!collapsed)} style={{cursor: "pointer"}}>
               {collapsed ? (
                 <MenuFoldOutlined style={{ fontSize: 20, marginLeft: 20 }} />
               ) : (
                 <MenuUnfoldOutlined style={{ fontSize: 20, marginLeft: 20 }} />
               )}
-            </div>
+            </span>
           </Header>
           <Content
             style={{ margin: "20px", background: "#fff", padding: "20px" }}
