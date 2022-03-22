@@ -2,9 +2,9 @@
  * @Author: wangyi
  * @Description: 
  * @Date: 2022-03-16 17:30:12
- * @LastEditTime: 2022-03-16 17:43:54
+ * @LastEditTime: 2022-03-22 10:19:24
  */
-import routes from '@/route'
+import routes from '@/router'
 import ErrorPage from '@/pages/public/errorPage'
 
 /**
