@@ -9,7 +9,10 @@ import BackLayout from "@/layout";
 import zhCN from "antd/es/locale/zh_CN";
 
 import { store, persistor } from "@/store";
-import '@/assets/css/public.less'
+import '@/assets/css/public.less';
+
+
+
 
 const App = () => {
   return (
@@ -22,7 +25,7 @@ const App = () => {
             </BrowserRouter>
           </ConfigProvider>
         </PersistGate>
-      </ReduxProvider>
+        </ReduxProvider>
     </StrictMode>
   );
 };
