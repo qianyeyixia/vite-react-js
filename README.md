@@ -2,40 +2,21 @@
 请使用 `pnpm` 安装
 
 # 文档
-[参考项目](https://github.com/hsl947/react-antd-multi-tabs-admin)
+
+>[项目框架vite](https://cn.vitejs.dev/)
+
+>[react]()
+
+><del>[多标签模式参考项目](https://github.com/hsl947/react-antd-multi-tabs-admin)</del>
+
+>[多标签 router v6 参考](https://github.com/liuye1296/react-keepAlive)
+
+>[react-router-dom](https://reactrouter.com/docs/en/v6)
+
+>[React Redux](https://www.redux.org.cn/)
+
+>[axios](https://www.axios-http.cn/docs/intro)
+
+>[ant design of react](https://ant.design/docs/react/introduce-cn)
 
 
-# Redux 的使用说明
-```Typescript
-# 在/src/store/actionTypes/index.tsx 定义新字段，格式如下
-export default {
-  ...,
-  SET_ACTION: {
-    name: 'SET_ACTION',
-    field: 'action'
-  }
-}
-
-# 在/src/store/state/index.tsx 也定义新字段，格式如下
-interface StoreState {
-  ...;
-  action: string;
-}
-const initState: StoreState = {
-  ...,
-  action: ''
-}
-
-# 在要使用的组件中
-import { connect } from 'react-redux'
-import * as actions from '@/store/actions'
-export default connect(
-  (state) => state,
-  actions
-)(ComponentName)
-
-# 然后在 props 就有 setStoreData 属性，可用来 dispatch
-setStoreData('SET_ACTION', '')
-
-# 只需要定义 type 和 state，不需要写每个action，效率提高了木有有！！！
-```
