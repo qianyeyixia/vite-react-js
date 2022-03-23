@@ -26,6 +26,9 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       preprocessorOptions: {
         less: {
           javascriptEnabled: true,
+          modifyVars: {
+            'root-entry-name': 'default'
+          }
           // additionalData: antOverride,
         },
       },
@@ -33,6 +36,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     resolve: {
       alias: [
         { find: "@", replacement: path.resolve(__dirname, "src") },
+        { find: /^~/, replacement: '' },
       ],
     },
     server: {
