@@ -2,10 +2,11 @@
  * @Author: wangyi
  * @Description: 
  * @Date: 2022-03-16 17:30:12
- * @LastEditTime: 2022-03-22 10:19:24
+ * @LastEditTime: 2022-04-29 17:40:57
  */
 import routes from '@/router'
 import ErrorPage from '@/pages/public/errorPage'
+import { store } from '@/store'
 
 /**
  * 隐藏手机号码

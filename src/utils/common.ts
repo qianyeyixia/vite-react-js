@@ -131,30 +131,3 @@ export const customizeTimer = {
  */
 export const limitDecimal = (val) =>
   val.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
-
-
-/**
- * 处理用户信息并储存起来
- */
-export const setUserInfo = (
-  userInfo,
-  action,
-  oldToken
-) => {
-  const { permission, userName, token } = userInfo
-  const permissionArray = permission.reduce(
-    (prev, next) => [
-      ...prev,
-      next.code
-    ],
-    []
-  )
-  localStorage.setItem('permissions', permissionArray)
-
-  const result = {
-    userName,
-    permission,
-    token: token || oldToken
-  }
-  action('SET_USERINFO', result)
-}

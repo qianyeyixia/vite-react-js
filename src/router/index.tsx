@@ -1,4 +1,13 @@
 import React from "react";
+import {
+  HomeOutlined,
+  BankOutlined,
+  UserOutlined,
+  AuditOutlined,
+  DashboardOutlined,
+  InfoCircleOutlined,
+  ApiOutlined
+} from '@ant-design/icons';
 import List from "@/pages/list";
 import ListDetails from "@/pages/list/details";
 import User from "@/pages/user";
@@ -9,6 +18,8 @@ const routes = [
     element: <Home />,
     exact: true,
     title: "首页",
+    key: "home",
+    icon: <HomeOutlined />
   },
   {
     path: "/list",
@@ -29,6 +40,8 @@ const routes = [
     element: <User />,
     exact: true,
     title: "用户",
+    key: "user",
+    icon: <UserOutlined />
   },
 ];
 
