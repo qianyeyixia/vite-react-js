@@ -29,7 +29,6 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
           modifyVars: {
             'root-entry-name': 'default'
           }
-          // additionalData: antOverride,
         },
       },
     },
