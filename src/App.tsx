@@ -1,4 +1,4 @@
-import React, { StrictMode } from "react";
+import React, { StrictMode, FC } from "react";
 import { BrowserRouter } from "react-router-dom";
 
 import { ConfigProvider } from "antd";
@@ -13,8 +13,7 @@ import '@/assets/css/public.less';
 
 
 
-
-const App = () => {
+const App:FC = () => {
   return (
     <StrictMode>
       <ReduxProvider store={store}>

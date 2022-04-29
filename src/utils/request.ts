@@ -13,8 +13,7 @@ const request = axios.create({
 // 添加请求拦截器
 request.interceptors.request.use(
   config => {
-    const { method, headers = {} ,url} = config;
-    const cloneData = cloneDeep(config.data);
+    const { method, headers = {} ,url, data} = config;
     const time = dayjs().valueOf().toString();
     let token = `url=/${url}&time=${time}&uuid=OzYWMqj3Xpe1Wxsh`;
     token = md5(token);
@@ -28,7 +27,7 @@ request.interceptors.request.use(
     return config
   },
   err => {
-    return Promise.reject(error);
+    return Promise.reject(err);
   })
 
 // 添加响应拦截器
