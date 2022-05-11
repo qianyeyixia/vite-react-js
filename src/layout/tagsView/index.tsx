@@ -3,7 +3,7 @@
  * @Author: wangyi
  * @Description:
  * @Date: 2022-03-23 11:01:26
- * @LastEditTime: 2022-05-11 10:07:23
+ * @LastEditTime: 2022-05-11 11:14:22
  */
 import React, { memo } from 'react';
 import classNames from 'classnames/bind';
@@ -16,6 +16,8 @@ import {
   map,
 } from "ramda";
 import {TagsViewDto} from "./common"
+
+import {Action, ActionType, reducer} from "./common"
 
 interface Props {
   delKeepAlive: (key:string) => void
@@ -64,5 +66,8 @@ function TagsView({ delKeepAlive, keepAliveList }:Props) {
     </>
   );
 }
+
+export { ActionType, reducer };
+export type { Action };
 
 export default memo(TagsView)

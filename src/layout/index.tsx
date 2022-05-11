@@ -2,29 +2,38 @@
  * @Author: wangyi
  * @Description:
  * @Date: 2022-03-13 17:46:55
- * @LastEditTime: 2022-03-23 14:21:24
+ * @LastEditTime: 2022-05-11 14:54:44
  */
-import React, { useState, useEffect, useRef } from "react";
-import { useLocation, useRoutes, useNavigate } from "react-router-dom";
-import { Menu, Layout } from "antd";
-import { WaterMark } from "@ant-design/pro-layout";
+import React, { useState, useEffect, useRef, FunctionComponent, memo, Suspense,useCallback,useMemo,useReducer } from "react";
+import { BackTop, Layout as ALayout, Menu } from "antd";
 
-const { Header, Content, Sider } = Layout;
+import { Link, useLocation, useNavigate, useRoutes } from "react-router-dom";
+import {equals, isNil, last, map} from "ramda"
+
+
+const { Header, Content, Sider } = ALayout;
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+
+
+import type { RouteMatch, RouteObject } from 'react-router'
+
 
 import KeepAlive from '@/components/KeepAlive'
 
-
 import routes from "@/router";
 import { getKeyName } from "@/utils/publicFunc";
+import TagsView, { Action, ActionType, reducer } from './tagsView'
+
 import Fulllogo from "@/assets/img/yanwen-full-logo.png";
 import logo from "@/assets/img/logo.png";
 import "./index.less";
+import $styles from './tagsView/index.module.scss'
 
 
 import {renderMenu} from "@/layout/utils"
 import { useAppDispatch, useAppSelector } from "@/store/redux-hooks";
 import { selectCollapsed, setCollapsed } from "@/store/slicers/appSlice";
+import WaterMark from "@/components/WaterMark";
 
 const BackLayout = () => {
   const collapsed = useAppSelector(selectCollapsed);
@@ -65,7 +74,7 @@ const BackLayout = () => {
 
   return (
     <>
-      <Layout style={{ minHeight: "100vh" }}>
+      <ALayout style={{ minHeight: "100vh" }}>
         <Sider collapsible collapsed={collapsed} onCollapse={onCollapse} theme="light">
           <div className="logo">
             {collapsed ? (
@@ -84,7 +93,7 @@ const BackLayout = () => {
             {renderMenu(routes)}
           </Menu>
         </Sider>
-        <Layout>
+        <ALayout>
           <Header style={{ background: "#fff", padding: 0 }}>
             <span onClick={() => onCollapse(!collapsed)} style={{ cursor: "pointer" }}>
               {collapsed ? (
@@ -94,15 +103,15 @@ const BackLayout = () => {
               )}
             </span>
           </Header>
-          <WaterMark content="蚂蚁集团">
+          <WaterMark content="燕文-运输系统">
             <Content
               style={{ margin: "20px", background: "#fff", padding: "20px", minHeight: "90vh" }}
             >
               {element}
             </Content>
           </WaterMark>
-        </Layout>
-      </Layout>
+        </ALayout>
+      </ALayout>
     </>
   );
 };
