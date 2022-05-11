@@ -2,20 +2,35 @@
  * @Author: wangyi
  * @Description:
  * @Date: 2022-03-22 17:49:45
- * @LastEditTime: 2022-04-29 11:29:31
+ * @LastEditTime: 2022-05-09 11:14:16
  */
-import React from 'react'
+
 import ReactDOM from 'react-dom'
+
 import { equals, isNil, map, filter, not } from 'ramda'
 
-import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { memo, useEffect, useLayoutEffect, useRef, useState, JSXElementConstructor, ReactElement, RefObject }  from 'react'
+
 
 import { useUpdate } from '@/hooks/useUpdate'
 
-function KeepAlive({ activeName, children, exclude, include, isAsyncInclude, maxLen = 10 }) {
-  const containerRef = useRef(null)
-  const components = useRef([])
-  const [asyncInclude] = useState(isAsyncInclude)
+type Children = ReactElement<any, string |JSXElementConstructor<any>> | null
+
+interface Props {
+  activeName?: string
+  isAsyncInclude: boolean // 是否异步加载 Include 如果不是又填了 true 会导致重复渲染
+  include?: Array<string>
+  exclude?: Array<string>
+  maxLen: number // 缓存的最大数量  
+  children: Children
+}
+
+
+
+function KeepAlive({ activeName, children, exclude, include, isAsyncInclude, maxLen = 10 }:Props) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const components = useRef<Array<{name:string, ele:Children}>>([])
+  const [asyncInclude] = useState<boolean>(isAsyncInclude)
   const update = useUpdate()
   useLayoutEffect(() => {
     if (isNil(activeName)) {
@@ -77,7 +92,14 @@ function KeepAlive({ activeName, children, exclude, include, isAsyncInclude, max
 
 export default memo(KeepAlive)
 
-function Component({ active, children, name, renderDiv }) {
+interface ComponentProps {
+  active: boolean
+  children: Children  
+  name: string
+  renderDiv: RefObject<HTMLDivElement>
+}
+
+function Component({ active, children, name, renderDiv }:ComponentProps) {
   const [targetElement] = useState(() => document.createElement('div'))
   const activatedRef = useRef(false)
   activatedRef.current = activatedRef.current || active
@@ -97,3 +119,5 @@ function Component({ active, children, name, renderDiv }) {
   }, [name, targetElement])
   return <>{activatedRef.current && ReactDOM.createPortal(children, targetElement)}</>
 }
+
+export const KeepAliveComponent = memo(Component)
