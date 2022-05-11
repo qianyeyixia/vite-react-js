@@ -2,7 +2,7 @@
  * @Author: wangyi
  * @Description:
  * @Date: 2022-03-22 17:49:45
- * @LastEditTime: 2022-05-09 11:14:16
+ * @LastEditTime: 2022-05-11 11:10:45
  */
 
 import ReactDOM from 'react-dom'
@@ -27,7 +27,7 @@ interface Props {
 
 
 
-function KeepAlive({ activeName, children, exclude, include, isAsyncInclude, maxLen = 10 }:Props) {
+export function KeepAlive({ activeName, children, exclude, include, isAsyncInclude, maxLen = 10 }:Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const components = useRef<Array<{name:string, ele:Children}>>([])
   const [asyncInclude] = useState<boolean>(isAsyncInclude)
