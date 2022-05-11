@@ -1,22 +1,29 @@
+
 /*
  * @Author: wangyi
  * @Description:
  * @Date: 2022-03-23 11:01:26
- * @LastEditTime: 2022-03-23 13:45:49
+ * @LastEditTime: 2022-05-11 10:07:23
  */
-import React, { memo } from "react";
+import React, { memo } from 'react';
+import classNames from 'classnames/bind';
+import indexModule from './index.module.scss';
+import { CloseOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 import {
   equals,
   isEmpty,
   map,
 } from "ramda";
-import { CloseOutlined } from "@ant-design/icons";
+import {TagsViewDto} from "./common"
 
+interface Props {
+  delKeepAlive: (key:string) => void
+  keepAliveList: TagsViewDto[]
+}
 
-import indexModule from "./index.module.scss";
-import classNames from "classnames/bind";
 const styles = classNames.bind(indexModule);
-function TagsView({ delKeepAlive, keepAliveList }) {
+function TagsView({ delKeepAlive, keepAliveList }:Props) {
   return (
     <>
       <div
@@ -46,14 +53,14 @@ function TagsView({ delKeepAlive, keepAliveList }) {
                 />
               )}
             </Link>
-          ))}
+          ), keepAliveList)}
         </div>
       </div>
       <div
-				className={styles({
-					tagsHeight: !isEmpty(keepAliveList),
-				})}
-			/>
+        className={styles({
+          tagsHeight: !isEmpty(keepAliveList),
+        })}
+      />
     </>
   );
 }
