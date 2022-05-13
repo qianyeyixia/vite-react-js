@@ -2,7 +2,7 @@
  * @Author: wangyi
  * @Description:
  * @Date: 2022-03-22 17:49:45
- * @LastEditTime: 2022-05-11 11:10:45
+ * @LastEditTime: 2022-05-13 11:00:01
  */
 
 import ReactDOM from 'react-dom'
@@ -14,7 +14,7 @@ import React, { memo, useEffect, useLayoutEffect, useRef, useState, JSXElementCo
 
 import { useUpdate } from '@/hooks/useUpdate'
 
-type Children = ReactElement<any, string |JSXElementConstructor<any>> | null
+type Children = ReactElement<any, string | JSXElementConstructor<any>> | null
 
 interface Props {
   activeName?: string
@@ -94,7 +94,7 @@ export default memo(KeepAlive)
 
 interface ComponentProps {
   active: boolean
-  children: Children  
+  children: Children
   name: string
   renderDiv: RefObject<HTMLDivElement>
 }
