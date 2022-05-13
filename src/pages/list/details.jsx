@@ -3,7 +3,7 @@ import React from 'react';
 function ListDetails() {
   return (
     <div>
-      List
+      ListDetails
     </div>
   );
 }
