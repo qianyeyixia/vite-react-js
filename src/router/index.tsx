@@ -1,48 +1,28 @@
-import React from "react";
-import {
-  HomeOutlined,
-  BankOutlined,
-  UserOutlined,
-  AuditOutlined,
-  DashboardOutlined,
-  InfoCircleOutlined,
-  ApiOutlined
-} from '@ant-design/icons';
-import List from "@/pages/list";
-import ListDetails from "@/pages/list/details";
-import User from "@/pages/user";
-import Home from "@/pages/home";
-const routes = [
-  {
-    path: "/home",
-    element: <Home />,
-    exact: true,
-    title: "首页",
-    key: "home",
-    icon: <HomeOutlined />
-  },
-  {
-    path: "/list",
-    element: <List />,
-    exact: true,
-    title: "列表",
-    children: [
-      {
-        path: "/list/detail",
-        element: <ListDetails />,
-        exact: true,
-        title: "列表详情",
-      },
-    ],
-  },
-  {
-    path: "/user",
-    element: <User />,
-    exact: true,
-    title: "用户",
-    key: "user",
-    icon: <UserOutlined />
-  },
-];
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-export default routes;
+import { ConfigProvider } from 'antd'
+import {routes} from "@/router/configure";
+
+import zhCN from 'antd/es/locale/zh_CN'
+import { map } from 'ramda'
+import { SuspenseLoading } from '@/components/Loading'
+
+// 创建 同步路由文件
+export const SyncRouter = (): JSX.Element => {
+	return (
+		<ConfigProvider locale={zhCN}>
+			<BrowserRouter>
+				<SuspenseLoading>
+					<Routes>
+						{map(
+							(route) => (
+								<Route path={route.path} key={route.name} element={<route.component route={route} />} />
+							),
+							routes
+						)}
+					</Routes>
+				</SuspenseLoading>
+			</BrowserRouter>
+		</ConfigProvider>
+	)
+}
