@@ -3,67 +3,55 @@
  * @Author: wangyi
  * @Description:
  * @Date: 2022-03-23 11:01:26
- * @LastEditTime: 2022-05-11 11:14:22
+ * @LastEditTime: 2022-05-13 16:37:33
  */
 import React, { memo } from 'react';
 import classNames from 'classnames/bind';
-import indexModule from './index.module.scss';
-import { CloseOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Tabs } from "antd"
+import indexModule from "./index.module.less";
+import { Link, useLocation } from 'react-router-dom';
 import {
-  equals,
-  isEmpty,
   map,
 } from "ramda";
-import {TagsViewDto} from "./common"
+import { TagsViewDto } from "./common"
 
-import {Action, ActionType, reducer} from "./common"
+import { Action, ActionType, reducer } from "./common"
+
+const { TabPane } = Tabs;
 
 interface Props {
-  delKeepAlive: (key:string) => void
+  delKeepAlive: (key: string) => void
   keepAliveList: TagsViewDto[]
 }
+console.log(indexModule, 'indexModule');
 
-const styles = classNames.bind(indexModule);
-function TagsView({ delKeepAlive, keepAliveList }:Props) {
+function TagsView({ delKeepAlive, keepAliveList }: Props) {
+  const location = useLocation();
+  const onEdit = (targetKey, action) => {
+    console.log(targetKey, action);
+    delKeepAlive(targetKey);
+  };
   return (
-    <>
-      <div
-        className={indexModule.tagsViewContainer}
-        style={{ background: "#fff", paddingLeft: "16px" }}
-      >
-        <div className={indexModule.tagsViewWrapper}>
-          {map((tag) => (
-            <Link
-              to={tag.key}
-              className={styles({
-                tagsViewItem: true,
-                select: tag.active || equals(keepAliveList.length, 1),
-              })}
-              color="#fff"
-              key={tag.key}
-            >
-              {tag.title}
-              {keepAliveList.length > 1 && (
-                <CloseOutlined
-                  className={indexModule.closeIcon}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    event.preventDefault();
-                    delKeepAlive(tag.key);
-                  }}
-                />
-              )}
-            </Link>
-          ), keepAliveList)}
-        </div>
-      </div>
-      <div
-        className={styles({
-          tagsHeight: !isEmpty(keepAliveList),
-        })}
-      />
-    </>
+    <div className={indexModule["tags-view-wrapper"]}>
+      <Tabs type="editable-card" hideAdd onEdit={onEdit} tabBarStyle={{ margin: 0 }} activeKey={location.pathname}>
+        {map((tag) => (
+          <TabPane
+            closeIcon={null}
+            tab={
+              <Link
+                to={tag.key}
+                color="#fff"
+                key={tag.key}
+              >
+                {tag.title}
+              </Link>
+            }
+            key={tag.key}
+
+          />
+        ), keepAliveList)}
+      </Tabs>
+    </div>
   );
 }
 

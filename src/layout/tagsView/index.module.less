@@ -20,17 +20,15 @@
 }
 .tagsViewContainer {
 	border-top: 1px solid #e8e8e8;
-	position: fixed;
+	position: relative;
 	right: 0;
 	left: 180px;
 	z-index: 99;
 }
-.tagsHeight {
+
+.tags-view-wrapper {
 	height: 40px;
-}
-.tagsViewWrapper {
-	display: flex;
-	border-bottom: 1px solid #e8e8e8;
+  margin-top: 20px;
 }
 .tagsViewItem {
 	position: relative;
@@ -60,4 +58,10 @@
 	height: 100vh;
 	position: fixed;
 	left: 0;
+}
+
+.content {
+  min-height: 800px;
+  background-color: #fff;
+  padding: 10px 20px;
 }

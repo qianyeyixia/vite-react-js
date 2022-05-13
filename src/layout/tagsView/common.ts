@@ -19,7 +19,8 @@ export interface TagsViewDto {
   active:boolean
   title:string
   name:string
-  ele?: ReactElement<any,string| JSXElementConstructor<any>> | null
+  ele?: ReactElement<any,string| JSXElementConstructor<any>> | null,
+  hide?: boolean
 }
 
 export enum ActionType  {
@@ -90,7 +91,7 @@ export function isArray(arg: any): arg is Array<any> {
  */
 export function delKeepAlive(keepAliveList: TagsViewDto[], { key, navigate }:ActionDelDto) {
   const index = findIndex((item) => equals(item.key, key), keepAliveList)
-
+  console.log("delKeepAlive", key, index);
   if (equals(index, -1)) {
     return keepAliveList
   }
@@ -113,7 +114,7 @@ export function delKeepAlive(keepAliveList: TagsViewDto[], { key, navigate }:Act
   if (!isEmpty(pathname)) {
     navigate({ pathname })
   }
-  return clone(keepAliveList)
+  return [...keepAliveList]
 }
 
 const mergeMatchRoute = pipe(pick(['key', 'title', 'ele', 'name']), mergeRight({ active: true }))
