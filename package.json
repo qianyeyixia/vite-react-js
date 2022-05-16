@@ -7,6 +7,7 @@
     "build": "vite build",
     "preview": "vite preview"
   },
+  "keywords": ["vite", "react", "react-hooks", "keep-alive", "react-router-v6", "antd", "@reduxjs/toolkit", "redux", "react-redux"],
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-layout": "^6.38.0",
