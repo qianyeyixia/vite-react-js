@@ -1,4 +1,4 @@
-import React, { FunctionComponent, memo, Suspense, useCallback, useEffect, useMemo, useReducer } from 'react'
+import React, { FunctionComponent, memo, Suspense, useCallback, useEffect, useMemo, useReducer, useLayoutEffect } from 'react'
 
 import { Link, useLocation, useNavigate, useRoutes } from 'react-router-dom'
 
@@ -16,7 +16,7 @@ import $styles from './tagsView/index.module.less'
 import KeepAlive from '@/components/KeepAlive'
 import { ViewProvider } from '@/hooks/useView'
 import { RouteConfig } from '@/router/configure'
-import { useAppDispatch, useAppSelector } from "@/store/redux-hooks"
+import { useAppSelector } from "@/store/redux-hooks"
 
 const { Sider, Header, Content, Footer } = ALayout
 
@@ -26,8 +26,6 @@ export interface RouteObjectDto extends RouteObject {
 }
 
 type MenuItem = Required<MenuProps>['items'][number];
-
-
 
 function makeRouteObject(routes: RouteConfig[], dispatch: React.Dispatch<Action>): RouteObjectDto[] {
   return map((route) => {
@@ -49,19 +47,19 @@ function mergePtah(path: string, paterPath = '') {
   return paterPath + path
 }
 // 渲染导航栏
-function renderMenu(data: Array<RouteConfig>, path?: string): MenuItem[] {
+function renderMenu(data: Array<RouteConfig>, path?: string) {
   return map((route) => {
     const Icon = route.icon
     const thisPath = mergePtah(route.path, path)
     console.log(route, 53)
     return route.alwaysShow ? null : isNil(route.children) ? {
-      key: thisPath,
+      key: route.path,
       icon: Icon ? <Icon /> : null,
       label: <Link to={thisPath}>
-        {route.meta.title}
+        {route.meta?.title}
       </Link>,
     } as MenuItem : {
-      key: thisPath,
+      key: route.path,
       icon: Icon ? <Icon /> : null,
       label: route.meta.title,
       children: isNil(route.children) ? [] : renderMenu(route.children, thisPath),
@@ -69,8 +67,14 @@ function renderMenu(data: Array<RouteConfig>, path?: string): MenuItem[] {
   }, data) as MenuItem[]
 }
 
-interface Props {
+interface Props { 
   route: RouteConfig
+}
+
+
+interface Props {
+  route: RouteConfig,
+  setKeepAliveList: any,
 }
 
 function getLatchRouteByEle(
@@ -80,25 +84,22 @@ function getLatchRouteByEle(
   return isNil(data.outlet) ? (data.matches as RouteMatch<string>[]) : getLatchRouteByEle(data.outlet)
 }
 
-const Layout: FunctionComponent<Props> = ({ route }: Props) => {
+const Layout: FunctionComponent<Props> = ({ route , setKeepAliveList}: Props) => {
   const location = useLocation()
   const navigate = useNavigate()
-  const [keepAliveList, dispatch] = useReducer(reducer, [])
   const appStore = useAppSelector(state => state.app)
-  console.log(appStore, 'appStore')
+
+  const [keepAliveList, dispatch] = useReducer(reducer, appStore.keepAliveList)
   // 生成子路由
   const routeObject = useMemo(() => {
     if (route.children) {
-      console.log('route.children', route.children);
       return makeRouteObject(route.children, dispatch)
     }
     return []
   }, [route.children])
-  console.log('routeObject', routeObject);
 
   // 匹配 当前路径要渲染的路由
   const ele = useRoutes(routeObject)
-  console.log('ele', ele);
 
   // 计算 匹配的路由name
   const matchRouteObj = useMemo(() => {
@@ -109,10 +110,10 @@ const Layout: FunctionComponent<Props> = ({ route }: Props) => {
     if (isNil(matchRoute)) {
       return null
     }
-    console.log('matchRoute', matchRoute);
+    console.log("matchRoute", matchRoute)
+
     const selectedKeys: string[] = map((res) => {
-      console.log('res', res, 108, res.route.name);
-      return res.pathname
+      return res.route.path
     }, matchRoute)
     const data = last(matchRoute)?.route as RouteObjectDto
     return {
@@ -129,7 +130,7 @@ const Layout: FunctionComponent<Props> = ({ route }: Props) => {
         type: ActionType.add,
         payload: {
           ...matchRouteObj,
-        },
+        }
       })
     } else if (!equals(location.pathname, '/')) {
       navigate({
@@ -140,7 +141,6 @@ const Layout: FunctionComponent<Props> = ({ route }: Props) => {
   // 生成删除tag函数
   const delKeepAlive = useCallback(
     (key: string) => {
-      console.log('delKeepAlive', key, 138);
       dispatch({
         type: ActionType.del,
         payload: {
@@ -154,7 +154,6 @@ const Layout: FunctionComponent<Props> = ({ route }: Props) => {
   const include = useMemo(() => {
     return map((res) => res.key, keepAliveList)
   }, [keepAliveList])
-  console.log('include', include)
 
   return (
     <ALayout style={{ minHeight: '100vh' }}>
@@ -167,6 +166,9 @@ const Layout: FunctionComponent<Props> = ({ route }: Props) => {
           mode="inline"
           items={renderMenu(route.children ?? [])}
         >
+          {/* {
+            renderMenu(route.children ?? [])
+          } */}
         </Menu>
       </Sider>
       <ALayout style={{ marginLeft: "200px"}}>
