@@ -1,4 +1,4 @@
-import React, { FunctionComponent, memo, Suspense, useCallback, useEffect, useMemo, useReducer, useLayoutEffect } from 'react'
+import React, { FunctionComponent, memo, Suspense, useCallback, useEffect, useMemo, useReducer } from 'react'
 
 import { Link, useLocation, useNavigate, useRoutes } from 'react-router-dom'
 
@@ -67,11 +67,6 @@ function renderMenu(data: Array<RouteConfig>, path?: string) {
   }, data) as MenuItem[]
 }
 
-interface Props { 
-  route: RouteConfig
-}
-
-
 interface Props {
   route: RouteConfig,
   setKeepAliveList: any,
@@ -110,8 +105,6 @@ const Layout: FunctionComponent<Props> = ({ route , setKeepAliveList}: Props) =>
     if (isNil(matchRoute)) {
       return null
     }
-    console.log("matchRoute", matchRoute)
-
     const selectedKeys: string[] = map((res) => {
       return res.route.path
     }, matchRoute)
@@ -166,9 +159,6 @@ const Layout: FunctionComponent<Props> = ({ route , setKeepAliveList}: Props) =>
           mode="inline"
           items={renderMenu(route.children ?? [])}
         >
-          {/* {
-            renderMenu(route.children ?? [])
-          } */}
         </Menu>
       </Sider>
       <ALayout style={{ marginLeft: "200px"}}>
