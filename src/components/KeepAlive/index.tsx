@@ -2,7 +2,7 @@
  * @Author: wangyi
  * @Description:
  * @Date: 2022-03-22 17:49:45
- * @LastEditTime: 2022-05-13 11:00:01
+ * @LastEditTime: 2022-05-16 17:20:49
  */
 
 import ReactDOM from 'react-dom'
@@ -21,7 +21,7 @@ interface Props {
   isAsyncInclude: boolean // 是否异步加载 Include 如果不是又填了 true 会导致重复渲染
   include?: Array<string>
   exclude?: Array<string>
-  maxLen: number // 缓存的最大数量  
+  maxLen: number // 缓存的最大数量
   children: Children
 }
 
