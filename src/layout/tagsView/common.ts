@@ -2,7 +2,6 @@ import {
   equals,
   isEmpty,
   map,
-  clone,
   find,
   findIndex,
   is,
@@ -13,6 +12,8 @@ import {
 } from "ramda";
 import type {NavigateFunction} from "react-router-dom"
 import {ReactElement, JSXElementConstructor} from "react"
+import {setKeepAliveList} from "@/store/slicers/appSlice"
+
 
 export interface TagsViewDto {
   key:string
@@ -84,20 +85,22 @@ export function isArray(arg: any): arg is Array<any> {
 
 
 /**
- * It deletes the specified item from the keepAliveList.
+ * 删除标签
+ * @param {string} key - 标签key
+ * @param {NavigateFunction} navigate - 路由函数
  * @param {TagsViewDto[]} keepAliveList - The current keepAliveList
- * @param {ActionDelDto}  - keepAliveList: TagsViewDto[]
+ * @param {ActionDelDto}  keepAliveList: TagsViewDto[]
  * @returns A function that takes a list of tags and an action object and returns a new list of tags.
  */
 export function delKeepAlive(keepAliveList: TagsViewDto[], { key, navigate }:ActionDelDto) {
-  const index = findIndex((item) => equals(item.key, key), keepAliveList)
+  const index = findIndex((item: TagsViewDto) => equals(item.key, key), keepAliveList)
   console.log("delKeepAlive", key, index);
   if (equals(index, -1)) {
     return keepAliveList
   }
   let pathname = ''
   if (keepAliveList.length > 1) {
-    const index = findIndex((item) => equals(item.key, key), keepAliveList)
+    const index = findIndex((item: TagsViewDto) => equals(item.key, key), keepAliveList)
     const data = keepAliveList[index]
     // 如果删除是  当前渲染     需要移动位置
     if (data && data.active) {

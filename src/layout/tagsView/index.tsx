@@ -3,7 +3,7 @@
  * @Author: wangyi
  * @Description:
  * @Date: 2022-03-23 11:01:26
- * @LastEditTime: 2022-05-13 16:37:33
+ * @LastEditTime: 2022-05-16 10:42:43
  */
 import React, { memo } from 'react';
 import classNames from 'classnames/bind';
@@ -28,7 +28,6 @@ console.log(indexModule, 'indexModule');
 function TagsView({ delKeepAlive, keepAliveList }: Props) {
   const location = useLocation();
   const onEdit = (targetKey, action) => {
-    console.log(targetKey, action);
     delKeepAlive(targetKey);
   };
   return (
@@ -58,4 +57,4 @@ function TagsView({ delKeepAlive, keepAliveList }: Props) {
 export { ActionType, reducer };
 export type { Action };
 
-export default memo(TagsView)
+export default TagsView
