@@ -9,10 +9,10 @@ import {
   mergeRight,
   pick,
   pipe,
+  clone
 } from "ramda";
 import type {NavigateFunction} from "react-router-dom"
 import {ReactElement, JSXElementConstructor} from "react"
-import {setKeepAliveList} from "@/store/slicers/appSlice"
 
 
 export interface TagsViewDto {
@@ -117,7 +117,7 @@ export function delKeepAlive(keepAliveList: TagsViewDto[], { key, navigate }:Act
   if (!isEmpty(pathname)) {
     navigate({ pathname })
   }
-  return [...keepAliveList]
+  return clone(keepAliveList)
 }
 
 const mergeMatchRoute = pipe(pick(['key', 'title', 'ele', 'name']), mergeRight({ active: true }))

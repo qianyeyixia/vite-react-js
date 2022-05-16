@@ -3,10 +3,10 @@
  * @Author: wangyi
  * @Description:
  * @Date: 2022-03-23 11:01:26
- * @LastEditTime: 2022-05-16 10:42:43
+ * @LastEditTime: 2022-05-16 15:29:29
  */
 import React, { memo } from 'react';
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 import { Tabs } from "antd"
 import indexModule from "./index.module.less";
 import { Link, useLocation } from 'react-router-dom';
@@ -23,7 +23,6 @@ interface Props {
   delKeepAlive: (key: string) => void
   keepAliveList: TagsViewDto[]
 }
-console.log(indexModule, 'indexModule');
 
 function TagsView({ delKeepAlive, keepAliveList }: Props) {
   const location = useLocation();
@@ -32,10 +31,11 @@ function TagsView({ delKeepAlive, keepAliveList }: Props) {
   };
   return (
     <div className={indexModule["tags-view-wrapper"]}>
-      <Tabs type="editable-card" hideAdd onEdit={onEdit} tabBarStyle={{ margin: 0 }} activeKey={location.pathname}>
+      <Tabs type={
+        keepAliveList.length > 1 ? "editable-card" : "card"
+      } hideAdd onEdit={onEdit} tabBarStyle={{ margin: 0 }} activeKey={location.pathname}>
         {map((tag) => (
           <TabPane
-            closeIcon={null}
             tab={
               <Link
                 to={tag.key}
