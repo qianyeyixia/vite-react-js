@@ -2,104 +2,99 @@
  * @Author: wangyi
  * @Description:
  * @Date: 2022-03-22 17:49:45
- * @LastEditTime: 2022-05-16 17:20:49
+ * @LastEditTime: 2022-05-17 10:59:02
  */
 
 import ReactDOM from 'react-dom'
 
 import { equals, isNil, map, filter, not } from 'ramda'
 
-import React, { memo, useEffect, useLayoutEffect, useRef, useState, JSXElementConstructor, ReactElement, RefObject }  from 'react'
-
+import React, { memo, useEffect, useRef, useState, ReactNode, RefObject } from "react"
 
 import { useUpdate } from '@/hooks/useUpdate'
 
-type Children = ReactElement<any, string | JSXElementConstructor<any>> | null
-
-interface Props {
-  activeName?: string
-  isAsyncInclude: boolean // 是否异步加载 Include 如果不是又填了 true 会导致重复渲染
-  include?: Array<string>
-  exclude?: Array<string>
-  maxLen: number // 缓存的最大数量
-  children: Children
+export interface ComponentReactElement {
+  children?: ReactNode | ReactNode[]
 }
 
 
 
-export function KeepAlive({ activeName, children, exclude, include, isAsyncInclude, maxLen = 10 }:Props) {
+interface Props extends ComponentReactElement {
+  activeName?: string
+  include?: Array<string>
+  exclude?: Array<string>
+  maxLen?: number
+}
+
+
+
+export function KeepAlive({ activeName, children, exclude, include, maxLen = 10 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const components = useRef<Array<{name:string, ele:Children}>>([])
-  const [asyncInclude] = useState<boolean>(isAsyncInclude)
+  const [cacheComponents, setCacheComponents] = useState<Array<{ name: string; ele?: React.ReactNode }>>([])
   const update = useUpdate()
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (isNil(activeName)) {
       return
     }
-    // 缓存超过上限的
-    if (components.current.length >= maxLen) {
-      components.current = components.current.slice(1)
-    }
-    // 添加
-    const component = components.current.find((res) => equals(res.name, activeName))
-    if (isNil(component)) {
-      components.current = [
-        ...components.current,
-        {
-          name: activeName,
-          ele: children,
-        },
-      ]
-      if (not(asyncInclude)) {
-        update()
+    setCacheComponents((components) => {
+      // 缓存超过上限的
+      if (components.length >= maxLen) {
+        components = components.slice(1)
       }
-    }
-    return () => {
-      if (isNil(exclude) && isNil(include)) {
-        return
+      // 添加
+      const component = components.find((res) => equals(res.name, activeName))
+      if (isNil(component)) {
+        components = [
+          ...components,
+          {
+            name: activeName,
+            ele: children,
+          },
+        ]
       }
-      components.current = filter(({ name }) => {
-        if (exclude && exclude.includes(name)) {
-          return false
-        }
-        if (include) {
-          return include.includes(name)
-        }
-        return true
-      }, components.current)
-    }
-  }, [children, activeName, exclude, maxLen, include, update, asyncInclude])
+      return isNil(exclude) && isNil(include)
+        ? components
+        : filter(({ name }) => {
+          if (exclude && exclude.includes(name)) {
+            return false
+          }
+          if (include) {
+            return include.includes(name)
+          }
+          return true
+        }, components)
+    })
+}, [children, activeName, exclude, maxLen, include])
 
-  return (
-    <>
-      <div ref={containerRef} className='keep-alive' />
-      {map(
-        ({ name, ele }) => (
-          <Component
-            active={equals(name, activeName)}
-            renderDiv={containerRef}
-            name={name}
-            key={name}
-          >
-            {ele}
-          </Component>
-        ),
-        components.current
-      )}
-    </>
-  )
+return (
+  <>
+    <div ref={containerRef} className='keep-alive' />
+    {map(
+      ({ name, ele }) => (
+        <Component
+          active={equals(name, activeName)}
+          renderDiv={containerRef}
+          name={name}
+          key={name}
+        >
+          {ele}
+        </Component>
+      ),
+      cacheComponents
+    )}
+  </>
+)
 }
 
 export default memo(KeepAlive)
 
-interface ComponentProps {
+interface ComponentProps extends ComponentReactElement {
   active: boolean
-  children: Children
-  name: string
-  renderDiv: RefObject<HTMLDivElement>
+	name: string
+	renderDiv: RefObject<HTMLDivElement>
 }
 
-function Component({ active, children, name, renderDiv }:ComponentProps) {
+function Component({ active, children, name, renderDiv }: ComponentProps) {
   const [targetElement] = useState(() => document.createElement('div'))
   const activatedRef = useRef(false)
   activatedRef.current = activatedRef.current || active
