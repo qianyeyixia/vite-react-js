@@ -105,13 +105,12 @@ export function delKeepAlive(keepAliveList: TagsViewDto[], { key, navigate }:Act
     // 如果删除是  当前渲染     需要移动位置
     if (data && data.active) {
       // 如果是最后一个 那么  跳转到上一个
-      // if (equals(index, keepAliveList.length - 1)) {
-      //   pathname = keepAliveList[index - 1].key
-      // } else {
-      //   // 跳转到最后一个
-      //   pathname = last(keepAliveList)?.key ?? ''
-      // }
-      pathname = last(keepAliveList)?.key ?? ''
+			if (equals(index, keepAliveList.length - 1)) {
+				pathname = keepAliveList[index - 1].key
+			} else {
+				// 跳转到最后一个
+				pathname = last(keepAliveList)?.key ?? ''
+			}
     }
   }
   keepAliveList.splice(index, 1)
