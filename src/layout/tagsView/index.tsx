@@ -3,9 +3,9 @@
  * @Author: wangyi
  * @Description:
  * @Date: 2022-03-23 11:01:26
- * @LastEditTime: 2022-05-16 15:29:29
+ * @LastEditTime: 2022-05-17 11:02:54
  */
-import React, { memo } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { Tabs } from "antd"
 import indexModule from "./index.module.less";
@@ -27,7 +27,10 @@ interface Props {
 function TagsView({ delKeepAlive, keepAliveList }: Props) {
   const location = useLocation();
   const onEdit = (targetKey, action) => {
-    delKeepAlive(targetKey);
+    console.log(targetKey, action);
+    if(action === "remove") {
+      delKeepAlive(targetKey);
+    }
   };
   return (
     <div className={indexModule["tags-view-wrapper"]}>
